@@ -1,0 +1,66 @@
+package syksy2021.Notebook;
+
+import java.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import syksy2021.Notebook.domain.Category;
+import syksy2021.Notebook.domain.CategoryRepository;
+import syksy2021.Notebook.domain.Creator;
+import syksy2021.Notebook.domain.CreatorRepository;
+import syksy2021.Notebook.domain.Location;
+import syksy2021.Notebook.domain.LocationRepository;
+import syksy2021.Notebook.domain.Note;
+import syksy2021.Notebook.domain.NoteRepository;
+
+@SpringBootApplication
+public class NotebookApplication {
+	
+	private static final Logger log = LoggerFactory.getLogger(NotebookApplication.class);
+
+	public static void main(String[] args) {
+		SpringApplication.run(NotebookApplication.class, args);
+	}
+	
+	@Bean
+	public CommandLineRunner notebook(CategoryRepository catRepo, CreatorRepository creaRepo, LocationRepository locRepo, 
+			NoteRepository noteRepo) {
+		return (args) -> {
+			log.info("Creating categories");
+			catRepo.save(new Category ("Exhibitions"));
+			catRepo.save(new Category ("Books"));
+			catRepo.save(new Category ("Movies"));
+			
+			log.info("Creating creators");
+			creaRepo.save(new Creator ("Hannaleena Heiska"));
+			creaRepo.save(new Creator ("Susanna Majuri"));
+			creaRepo.save(new Creator ("Delia Owens"));
+			creaRepo.save(new Creator ("Roland Emmerich"));
+			
+			log.info("Creating locations");
+			locRepo.save(new Location ("Helsinki Contemporary", "Helsinki"));
+			locRepo.save(new Location("Valokuvataiteen museo K1", "Helsinki"));
+			locRepo.save(new Location ("Home", "Helsinki"));
+			
+			LocalDate exh1 = LocalDate.of(2021,10,10);
+			LocalDate exh2 = LocalDate.of(2021,10,10);
+			LocalDate book1 = LocalDate.of(2021,9,30);
+			LocalDate movie1 = LocalDate.of(2021,10,9);
+			
+			log.info("Creating notes");
+			noteRepo.save(new Note ("Blazing World", exh1, "Nice new drawings and paintings.", 4, creaRepo.findByCreatorName("Hannaleena Heiska").get(0),
+					locRepo.findByLocationName("Helsinki Contemporary").get(0), catRepo.findByCategoryName("Exhibitions").get(0)));
+			noteRepo.save(new Note ("Rakkaus", exh2, "Amazing photography retrospective.", 4, creaRepo.findByCreatorName("Susanna Majuri").get(0),
+					locRepo.findByLocationName("Valokuvataiteen museo K1").get(0), catRepo.findByCategoryName("Exhibitions").get(0)));
+			noteRepo.save(new Note ("Where the Crawdads Sing", book1, "Touching survival story.", 5, creaRepo.findByCreatorName("Delia Owens").get(0),
+					locRepo.findByLocationName("Home").get(0), catRepo.findByCategoryName("Books").get(0)));
+			noteRepo.save(new Note ("Stargate", movie1, "Entertaining science fiction classic.", 3, creaRepo.findByCreatorName("Roland Emmerich").get(0),
+					locRepo.findByLocationName("Home").get(0), catRepo.findByCategoryName("Movies").get(0)));
+		};
+	}
+
+}
