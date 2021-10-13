@@ -5,30 +5,32 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
 	<body>
-		<h1>All notes</h1>
-		<table>
-			<tbody>
-				<tr>
-					<th>Name</th>
-					<th>Creator</th>
-					<th>Date</th>
-					<th>Location</th>
-					<th>City</th>
-					<th>Category</th>
-					<th>Thoughts</th>
-					<th>Evaluation</th>
-				</tr>
-				<tr th:each = "note:${notes}">
-					<td th:text = "${note.noteName}"></td>
-					<td th:text = "${note.creator.creatorName}"></td>
-					<td th:text = "${note.date}"></td>
-					<td th:text = "${note.location.locationName}"></td>
-					<td th:text = "${note.location.city}"></td>
-					<td th:text = "${note.category.categoryName}"></td>
-					<td th:text = "${note.thoughts}"></td>
-					<td th:text = "${note.evaluation}"></td>
-				</tr>
-			</tbody>
-		</table>
+		<div>
+			<h1>All notes</h1>
+			<table>
+				<tbody>
+					<tr>
+						<th>Category</th>
+						<th>Name of experience</th>
+						<th>Creator</th>
+						<th>Date</th>
+						<th>Location</th>
+						<th>Thoughts</th>
+						<th>Evaluation</th>
+						<th></th>
+					</tr>
+					<tr th:each = "note:${notes}">
+						<td th:text = "${note.category.categoryName}"></td>
+						<td th:text = "${note.noteName}"></td>
+						<td th:text = "${note.creator}"></td>
+						<td th:text = "${note.date}"></td>
+						<td th:text = "${note.location}"></td>
+						<td th:text = "${note.thoughts}"></td>
+						<td th:text = "${note.evaluation}"></td>
+						<td><a th:href="@{/editnote/{id}(id=${note.noteId})}">Edit</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</body>
 </html>

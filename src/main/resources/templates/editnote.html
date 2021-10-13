@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Notebook</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<div>
+			<h2>Edit your note</h2>
+		</div>
+		<div>	
+			<form th:object="${note}" th:action="@{../savenote}" action="#" method="post">
+				<input type="hidden" id="id" th:field="*{noteId}" readonly="readonly"/>
+				<input type="hidden" id="category" th:field="*{category.categoryId}" readonly="readonly"/>
+				<!--
+				<select id="catlist" th:field="*{category}">
+					<option th:each="category: ${categories}" th:value="${category.categoryId}"
+					th:text="${category.categoryName}"></option>
+				</select>			
+				</br>
+				-->
+				<label for="noteName">Name of experience:</label>
+				<input type="text" id="noteName" value="${note.noteName}" th:field="*{noteName}"/></br>
+				<label for="creator">Creator:</label>
+				<input type="text" id="creator" value="${note.creator}" th:field="*{creator}"/></br>  
+				
+				<label for="date">Date (dd/mm/yyyy):</label>
+				<input type="text" id="date" th:field="*{date}"/></br>
+				<!-- <input type="date" id="date" value="${note.date}" th:field="*{date}"/></br>-->
+				 
+				<label for="location">Location:</label>
+				<input type="text" id="location" value="${note.location}" th:field="*{location}"/></br>
+				<label for="thoughts">Thoughts:</label>
+				<input type="text" id="thoughts" value="${note.thoughts}" th:field="*{thoughts}"/></br>
+				<label for="evaluation">Evaluation (1–5):</label>
+				<input type="text" id="evaluation" value="${note.evaluation}" th:field="*{evaluation}"/></br>
+				<input type="submit" value="Save"></input>
+			</form>
+		</div>
+	</body>
+</html>

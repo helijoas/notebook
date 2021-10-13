@@ -17,18 +17,9 @@ public class Note {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long noteId;
 	
-	private String noteName;
+	private String noteName, creator, location, thoughts;
 	private LocalDate date;
-	private String thoughts;
 	private Integer evaluation;
-	
-	@ManyToOne
-	@JoinColumn(name = "creatorId")
-	private Creator creator;
-	
-	@ManyToOne
-	@JoinColumn(name = "locationId")
-	private Location location;
 
 	@ManyToOne
 	@JoinColumn(name = "categoryId")
@@ -38,7 +29,7 @@ public class Note {
 		super();
 	}
 	
-	public Note(String noteName, LocalDate date, String thoughts, Integer evaluation, Creator creator, Location location,
+	public Note(String noteName, LocalDate date, String thoughts, Integer evaluation, String creator, String location,
 			Category category) {
 		super();
 		this.noteName = noteName;
@@ -90,19 +81,19 @@ public class Note {
 		this.evaluation = evaluation;
 	}
 
-	public Creator getCreator() {
+	public String getCreator() {
 		return creator;
 	}
 
-	public void setCreator(Creator creator) {
+	public void setCreator(String creator) {
 		this.creator = creator;
 	}
 
-	public Location getLocation() {
+	public String getLocation() {
 		return location;
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(String location) {
 		this.location = location;
 	}
 
