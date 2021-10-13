@@ -80,4 +80,13 @@ public class NotebookController {
 		model.addAttribute("categories", catRepo.findAll());
 		return "editnote";
 	}
+	
+	// poista muistiinpano
+	@GetMapping ("/deletenote/{id}")
+	public String deleteNote(@PathVariable ("id") Long noteId) {
+		noteRepo.deleteById(noteId);
+		// model.addAttribute("note", noteRepo.findById(noteId));
+		return "redirect:/notelist";
+	}
 }
+

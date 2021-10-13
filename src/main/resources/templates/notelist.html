@@ -20,6 +20,7 @@
 						<th>Thoughts</th>
 						<th>Evaluation</th>
 						<th></th>
+						<th></th>
 					</tr>
 					<tr th:each = "note:${notes}">
 						<td th:text = "${note.category.categoryName}"></td>
@@ -30,6 +31,7 @@
 						<td th:text = "${note.thoughts}"></td>
 						<td th:text = "${note.evaluation}"></td>
 						<td><a th:href="@{/editnote/{id}(id=${note.noteId})}">Edit</a></td>
+						<td><a th:href="@{/deletenote/{id} (id=${note.noteId})}">Delete</a></td>
 					</tr>
 				</tbody>
 			</table>
