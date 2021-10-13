@@ -1,6 +1,8 @@
 package syksy2021.Notebook.web;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import syksy2021.Notebook.domain.Category;
 import syksy2021.Notebook.domain.CategoryRepository;
 import syksy2021.Notebook.domain.Note;
 import syksy2021.Notebook.domain.NoteRepository;
@@ -49,6 +52,25 @@ public class NotebookController {
 		//note.setDate(date);
 		noteRepo.save(note);
 		return "redirect:/notelist";
+	}
+	
+	// kategorian lisäys
+	@GetMapping ("/addcategory")
+	public String addCategory (Model model) {
+		model.addAttribute("category", new Category());
+		return "addcategory";
+	}
+	
+	// tallenna uusi kategoria
+	@PostMapping ("/savecategory")
+	public String saveCategory(Category category) {
+		List<Category> existingCategory = catRepo.findByCategoryName(category.getCategoryName()); //tarkistetaan löytyykö kannasta jo samannimistä kategoriaa
+		if (existingCategory.isEmpty()) { 
+			catRepo.save(category); // tallennetaan kantaan kun samannimistä ei löydy
+			return "redirect:/addnote"; // ohjataan lisäämään muistiinpanoa
+		} else {
+			return "redirect:/addnote"; //palautetaan lisäämään muistiinpano tallentamatta kategoriaa uudestaan kantaan
+		}	
 	}
 	
 	// hae kannasta muistiinpanojen editiointia varten

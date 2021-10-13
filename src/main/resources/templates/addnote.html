@@ -8,7 +8,7 @@
 		<div>
 			<h2>Add a new note</h2>
 			<p>Add a new note on any topic you like. Start by selecting the category* for your note.</p> 
-			<p><i>*If you cannot find the category you are looking for, please</i> add a new category <i>first.</i></p>
+			<p><i>*If you cannot find the category you are looking for, please </i><a th:href="@{/addcategory}">add a new category</a><i> first.</i></p>
 		</div>
 		<div>
 			<form th:object="${note}" th:action="@{savenote}" action="#" method="post">
@@ -33,7 +33,7 @@
 				<input type="text" id="thoughts" th:field="*{thoughts}"/></br>
 				<label for="evaluation">Evaluation (1–5):</label>
 				<input type="text" id="evaluation" th:field="*{evaluation}"/></br>
-				<input type="submit" value="Save"></input>
+				<input type="submit" value="Add"></input>
 			</form>
 		</div>
 	</body>

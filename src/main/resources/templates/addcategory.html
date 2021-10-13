@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Notebook</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<div>
+			<h2>Add a new category</h2>
+			<p>What would you like to add a note about?</p>
+		</div>
+		<div>
+			<form th:object="${category}" th:action="@{savecategory}" action="#" method="post">
+				<label for="categoryName">Category:</label>
+				<input type="text" id="name" th:field="*{categoryName}"/>
+				<input type="submit" value="Add"></input>
+			</form>
+		</div>
+		<div>
+			<a href="/addnote">Return to creating a note without adding a category</a></br>
+			<a href="/notelist">Return to the list of notes without adding a category</a>
+		</div>
+	</body>
+</html>
