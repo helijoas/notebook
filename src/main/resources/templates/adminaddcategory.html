@@ -10,7 +10,7 @@
 			<p>What would you like to add a note about?</p>
 		</div>
 		<div>
-			<form th:object="${category}" th:action="@{savecategory}" action="#" method="post">
+			<form th:object="${category}" th:action="@{adminsavecategory}" action="#" method="post">
 				<label for="categoryName">Category:</label>
 				<input type="text" id="name" th:field="*{categoryName}"/>
 				<input type="submit" value="Add"></input>

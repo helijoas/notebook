@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Notebook</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<div>
+			<h2>Manage categories</h2>
+			<p>View or manage all categories or</p>
+			<p><a th:href="@{/adminaddcategory}">add a new category</a>.</p>
+		</div>
+		<div>
+			<table>
+				<tbody>
+					<tr>
+						<th>Category</th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr th:each="category:${categories}">
+						<td th:text="${category.categoryName}"></td>
+						<td>Edit</td>
+						<td><a th:href="@{/deletecategory/{id} (id=${category.categoryId})}">Delete</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div>
+			<p><a href="/notelist">Return to the list of notes</a></p>
+		</div>
+	</body>
+</html>
