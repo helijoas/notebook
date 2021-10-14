@@ -8,7 +8,7 @@
 		<div>
 			<h2>Manage categories</h2>
 			<p>View or manage all categories or</p>
-			<p><a th:href="@{/adminaddcategory}">add a new category</a>.</p>
+			<p><a th:href="@{/admin/addcategory}">add a new category</a>.</p>
 		</div>
 		<div>
 			<table>
@@ -20,8 +20,8 @@
 					</tr>
 					<tr th:each="category:${categories}">
 						<td th:text="${category.categoryName}"></td>
-						<td>Edit</td>
-						<td><a th:href="@{/deletecategory/{id} (id=${category.categoryId})}">Delete</td>
+						<td><a th:href="@{/admin/editcategory/{id} (id=${category.categoryId})}">Edit</a></td>
+						<td><a th:href="@{/admin/deletecategory/{id} (id=${category.categoryId})}">Delete</a></td>
 					</tr>
 				</tbody>
 			</table>

@@ -6,19 +6,14 @@
 	</head>
 	<body>
 		<div>
-			<h2>Add a new category</h2>
-			<p>What would you like to add a note about?</p>
+			<h2>Edit a category</h2>
 		</div>
 		<div>
 			<form th:object="${category}" th:action="@{savecategory}" action="#" method="post">
 				<label for="categoryName">Category:</label>
-				<input type="text" id="name" th:field="*{categoryName}"/>
-				<input type="submit" value="Add"></input>
+				<input type="text" id="name" value="${category.categoryName}" th:field="*{categoryName}"/>
+				<input type="submit" value="Save"></input>
 			</form>
-		</div>
-		<div>
-			<a href="/addnote">Return to creating a note without adding a category</a></br>
-			<a href="/notelist">Return to the list of notes without adding a category</a></br>
 		</div>
 	</body>
 </html>

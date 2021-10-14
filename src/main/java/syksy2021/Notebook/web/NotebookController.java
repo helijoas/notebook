@@ -57,7 +57,7 @@ public class NotebookController {
 	}
 	
 	//kategorioiden listaus, KORJATTAVA NÄYTETTÄVÄKSI VAIN ADMINILLE
-	@GetMapping ("/categorylist")
+	@GetMapping ("/admin/categorylist")
 	public String listCategories(Model model) {
 		model.addAttribute("categories", catRepo.findAll());
 		return "categorylist";
@@ -84,7 +84,7 @@ public class NotebookController {
 	}
 	
 	// kategorian lisäys adminin puolelta
-	@GetMapping ("/adminaddcategory")
+	@GetMapping ("/admin/addcategory")
 	public String addCategoryAdmin (Model model) {
 		model.addAttribute("category", new Category());
 		return "adminaddcategory";
@@ -92,14 +92,14 @@ public class NotebookController {
 	
 	// TARVITSEE TARKISTUSVIESTIN
 	// tallenna uusi kategoria adminin puolelta
-	@PostMapping ("/adminsavecategory")
+	@PostMapping ("/admin/savecategory")
 	public String saveCategoryAdmin(Category category) {
 		List<Category> existingCategory = catRepo.findByCategoryName(category.getCategoryName()); //tarkistetaan löytyykö kannasta jo samannimistä kategoriaa
 		if (existingCategory.isEmpty()) { 
 			catRepo.save(category); // tallennetaan kantaan kun samannimistä ei löydy
-			return "redirect:/categorylist"; // ohjataan lisäämään muistiinpanoa
+			return "redirect:/admin/categorylist"; // ohjataan lisäämään muistiinpanoa
 		} else {
-			return "redirect:/categorylist"; //palautetaan lisäämään muistiinpano tallentamatta kategoriaa uudestaan kantaan
+			return "redirect:/admin/categorylist"; //palautetaan lisäämään muistiinpano tallentamatta kategoriaa uudestaan kantaan
 		}	
 	}
 	
@@ -111,6 +111,13 @@ public class NotebookController {
 		return "editnote";
 	}
 	
+	// hae kannasta kategorian editointia varten
+	@GetMapping ("/admin/editcategory/{id}")
+	public String editCategory(@PathVariable ("id") Long categoryId, Model model) {
+		model.addAttribute("category", catRepo.findById(categoryId));
+		return "editcategory";
+	}
+	
 	// poista muistiinpano
 	@GetMapping ("/deletenote/{id}")
 	public String deleteNote(@PathVariable ("id") Long noteId) {
@@ -120,16 +127,16 @@ public class NotebookController {
 	
 	// TARVITSEE TARKISTUSVIESTIT/HERJAT
 	// poista kategoria, KORJATTAVA NÄYTETTÄVÄKSI VAIN ADMINILLE
-	@GetMapping ("/deletecategory/{id}")
+	@GetMapping ("/admin/deletecategory/{id}")
 	public String deleteCategory(@PathVariable ("id") Long categoryId) {	
 		Optional<Category> category = catRepo.findById(categoryId); // haetaan mahdollinen kategoria tietokannasta
 		if (category.isPresent()) { // mikäli id:llä löytyy kategoria
 			List<Note> notes = category.get().getNotes(); // haetaan mahdolliset kategoriaan liitetyt muistiinpanot
 			if (notes.isEmpty()) { // mikäli kategoriaan ei ole liitetty muistiinpanoja
 				catRepo.deleteById(categoryId); // poistetaan kategoria
-				return "redirect:/categorylist"; // palautetaan kategorialista
+				return "redirect:/admin/categorylist"; // palautetaan kategorialista
 			} else {
-				return "redirect:/categorylist"; // palautetaan kategorialista poistamatta kategoriaa
+				return "redirect:/admin/categorylist"; // palautetaan kategorialista poistamatta kategoriaa
 			}
 		} else {
 			return "redirect:/categorylist";
