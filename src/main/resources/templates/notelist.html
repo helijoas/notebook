@@ -1,16 +1,25 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<head>
 		<title>Notebook</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
 	<body>
+		<div><h1>Welcome to your notebook, [[${#httpServletRequest.remoteUser}]]!</h1></div>
 		<div>
-			<h1>All notes</h1>
+			<form th:action="@{/logout}" method="post">
+				<input type="submit" value="Sign out"/>
+			</form>
+		</div>
+		<div>
+			<h2>All notes</h2>
 			<p>Enjoy the notes you have made or <a href="/addnote">add a new note</a> for the future.</p>
+		</div>
+		<div sec:authorize="hasAuthority('ADMIN')">
 			<p>View and manage categories</br>
 			<a href="/admin/categorylist">Manage</a></p>
-			
+		</div>
+		<div>	
 			<table>
 				<tbody>
 					<tr>

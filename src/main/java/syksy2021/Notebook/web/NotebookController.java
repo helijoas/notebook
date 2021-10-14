@@ -27,7 +27,7 @@ public class NotebookController {
 	private NoteRepository noteRepo;
 	
 	// index-sivu
-	@GetMapping ("/index")
+	@GetMapping ("/login")
 	public String index() {
 		return "welcome";
 	}

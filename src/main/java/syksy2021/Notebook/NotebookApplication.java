@@ -10,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import syksy2021.Notebook.domain.User;
+import syksy2021.Notebook.domain.UserRepository;
 import syksy2021.Notebook.domain.Category;
 import syksy2021.Notebook.domain.CategoryRepository;
 import syksy2021.Notebook.domain.Note;
@@ -25,7 +27,7 @@ public class NotebookApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner notebook(CategoryRepository catRepo, NoteRepository noteRepo) {
+	public CommandLineRunner notebook(CategoryRepository catRepo, NoteRepository noteRepo, UserRepository userRepo) {
 		return (args) -> {
 			log.info("Creating categories");
 			catRepo.save(new Category ("Exhibitions"));
@@ -46,6 +48,10 @@ public class NotebookApplication {
 					"Home", catRepo.findByCategoryName("Books").get(0)));
 			noteRepo.save(new Note ("Stargate", movie1, "Entertaining science fiction classic.", 3, "Roland Emmerich",
 					"Home", catRepo.findByCategoryName("Movies").get(0)));
+			
+			log.info("Creating users");
+			userRepo.save(new User("user", "$2a$10$3l21spSQ3FADv68hKOs7XOEEnVWu073awfEVUJ/5oSVMHBIMcSAcq", "USER"));
+			userRepo.save(new User("admin", "$2a$10$WcJf22o18JuVtndNxiVbKObpV.6Dh9SCdMuLu.Didc9dO/h8hMcWy", "ADMIN" ));
 		};
 	}
 
