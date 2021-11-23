@@ -28,8 +28,14 @@ public class NotebookController {
 	@Autowired
 	private NoteRepository noteRepo;
 	
-	// index-sivu
+	// login/index-sivu
 	@GetMapping ("/login")
+	public String login() {
+		return "welcome";
+	}
+	
+	// login/index-sivu
+	@GetMapping ("/")
 	public String index() {
 		return "welcome";
 	}
@@ -49,15 +55,30 @@ public class NotebookController {
 		return "addnote";
 	}
 	
-	// tallenna uusi muistiinpano
+	/*
+	// tallenna uusi muistiinpano validoinnilla --> miksi ei toimi näin, heittää 500
 	@PostMapping ("/savenote")
-	public String saveNote(Note note) {
-		//LocalDate date = LocalDate.now();
-		//note.setDate(date);
-		noteRepo.save(note);
-		return "redirect:/notelist";
+	public String saveNote(@Valid Note note, BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) { // tarkistetaan heittääkö validointi errorin
+			return "addnote";
+		} else {
+			//LocalDate date = LocalDate.now();
+			//note.setDate(date);
+			noteRepo.save(note);
+			return "redirect:/notelist";
+		}	
 	}
-	
+	*/
+
+	// tallenna uusi muistiinpano
+		@PostMapping ("/savenote")
+		public String saveNote(Note note) {
+			//LocalDate date = LocalDate.now();
+			//note.setDate(date);
+			noteRepo.save(note);
+			return "redirect:/notelist";
+		}	
+
 	//kategorioiden listaus
 	@GetMapping ("/admin/categorylist")
 	public String listCategories(Model model) {
@@ -125,8 +146,6 @@ public class NotebookController {
 		model.addAttribute("category", catRepo.findById(categoryId));
 		return "editcategory";
 	}
-	
-	// tallenna editoitu kategoria
 	
 	
 	// poista muistiinpano

@@ -12,6 +12,54 @@
 		</div>
 		<div>
 			<form th:object="${note}" th:action="@{savenote}" action="#" method="post">
+				<!--  -->
+				<table>
+					<tr>
+						<td>Category:</td>
+						<td>
+							<select id="catlist" th:field="*{category}">
+								<option value="0">Choose category</option>
+								<option th:each="category: ${categories}" th:value="${category.categoryId}"
+								th:text="${category.categoryName}"></option>
+							</select>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Name the experience:</td>
+						<td><input type="text" id="noteName" th:field="*{noteName}"/></td>
+						<td th:if="${#fields.hasErrors('noteName')}" th:errors="*{noteName}">NoteName Error</td>
+					</tr>
+					<tr>
+						<td>Creator:</td>
+						<td><input type="text" id="creator" th:field="*{creator}"/></td>
+						<td th:if="${#fields.hasErrors('creator')}" th:errors="*{creator}">Creator Error</td>
+					</tr>
+					<tr>
+						<td>Date (dd/mm/yyyy):</td>
+						<td><input type="text" id="date" th:field="*{date}"/></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Location:</td>
+						<td><input type="text" id="location" th:field="*{location}"/></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Thoughts:</td>
+						<td><input type="text" id="thoughts" th:field="*{thoughts}"/></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Evaluation (1–5):</td>
+						<td><input type="text" id="evaluation" th:field="*{evaluation}"/></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><input type="submit" value="Add"></input></td>
+					</tr>
+				</table>
+				<!--  
 				<label for="category">Category:</label>
 				<select id="catlist" th:field="*{category}">
 					<option value="0">Choose category</option>
@@ -26,7 +74,7 @@
 				<label for="date">Date (dd/mm/yyyy):</label>
 				<input type="text" id="date" th:field="*{date}"/></br>
 				<!--<input type="date" id="date" th:field="*{date}"/></br>-->
-				 
+				 <!--
 				<label for="location">Location:</label>
 				<input type="text" id="location" th:field="*{location}"/></br>
 				<label for="thoughts">Thoughts:</label>
@@ -34,6 +82,7 @@
 				<label for="evaluation">Evaluation (1–5):</label>
 				<input type="text" id="evaluation" th:field="*{evaluation}"/></br>
 				<input type="submit" value="Add"></input>
+				-->
 			</form>
 		</div>
 		<div>

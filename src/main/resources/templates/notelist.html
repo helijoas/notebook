@@ -13,7 +13,7 @@
 		</div>
 		<div>
 			<h2>All notes</h2>
-			<p>Enjoy the notes you have made or <a href="/addnote">add a new note</a> for the future.</p>
+			<p>Enjoy the notes you have made!</p>
 		</div>
 		<div>	
 			<table>
@@ -42,6 +42,9 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+		<div>
+			<p><button onclick="window.location.href='/addnote';">Add note</button></p>
 		</div>
 		<div sec:authorize="hasAuthority('ADMIN')">
 			<h4>View and manage categories</h4>
