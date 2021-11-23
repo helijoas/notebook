@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import syksy2021.Notebook.domain.Category;
 import syksy2021.Notebook.domain.CategoryRepository;
@@ -158,18 +159,21 @@ public class NotebookController {
 	// TARVITSEE TARKISTUSVIESTIT/HERJAT
 	// poista kategoria
 	@GetMapping ("/admin/deletecategory/{id}")
-	public String deleteCategory(@PathVariable ("id") Long categoryId) {	
+	public String deleteCategory(@PathVariable ("id") Long categoryId, RedirectAttributes redirAttrs) {	
 		Optional<Category> category = catRepo.findById(categoryId); // haetaan mahdollinen kategoria tietokannasta
 		if (category.isPresent()) { // mikäli id:llä löytyy kategoria
 			List<Note> notes = category.get().getNotes(); // haetaan mahdolliset kategoriaan liitetyt muistiinpanot
 			if (notes.isEmpty()) { // mikäli kategoriaan ei ole liitetty muistiinpanoja
 				catRepo.deleteById(categoryId); // poistetaan kategoria
+				redirAttrs.addFlashAttribute("success", "Category deleted."); // lisätään ok-viesti
 				return "redirect:/admin/categorylist"; // palautetaan kategorialista
 			} else {
+				redirAttrs.addFlashAttribute("error", "Not able to delete category. Category has notes.");
 				return "redirect:/admin/categorylist"; // palautetaan kategorialista poistamatta kategoriaa
 			}
 		} else {
-			return "redirect:/categorylist";
+			redirAttrs.addFlashAttribute("error", "Category not found.");
+			return "redirect:/admin/categorylist";
 		}
 	}
 }
