@@ -36,7 +36,10 @@
 				<input type="text" id="evaluation" value="${note.evaluation}" th:field="*{evaluation}"/></br>
 				<input type="submit" value="Save"></input>
 			</form>
-			<a href="/notelist">Return to the list of notes without editing note</a></br>
+		</div>
+		<div>
+			<h4>Don't want to edit note after all?</h4>
+			<p><button onclick="window.location.href='/notelist';">View notes</button>
 		</div>
 	</body>
 </html>

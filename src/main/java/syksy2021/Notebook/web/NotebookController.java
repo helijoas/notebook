@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +58,7 @@ public class NotebookController {
 		return "redirect:/notelist";
 	}
 	
-	//kategorioiden listaus, KORJATTAVA NÄYTETTÄVÄKSI VAIN ADMINILLE
+	//kategorioiden listaus
 	@GetMapping ("/admin/categorylist")
 	public String listCategories(Model model) {
 		model.addAttribute("categories", catRepo.findAll());
@@ -70,17 +72,20 @@ public class NotebookController {
 		return "addcategory";
 	}
 	
-	// TARVITSEE TARKISTUSVIESTIN
 	// tallenna uusi kategoria
 	@PostMapping ("/savecategory")
-	public String saveCategory(Category category) {
-		List<Category> existingCategory = catRepo.findByCategoryName(category.getCategoryName()); //tarkistetaan löytyykö kannasta jo samannimistä kategoriaa
-		if (existingCategory.isEmpty()) { 
-			catRepo.save(category); // tallennetaan kantaan kun samannimistä ei löydy
-			return "redirect:/addnote"; // ohjataan lisäämään muistiinpanoa
+	public String saveCategory(@Valid Category category, BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) { // tarkistetaan heittääkö validointi errorin
+			return "addcategory";
 		} else {
-			return "redirect:/addnote"; //palautetaan lisäämään muistiinpano tallentamatta kategoriaa uudestaan kantaan
-		}	
+			List<Category> existingCategory = catRepo.findByCategoryName(category.getCategoryName()); //tarkistetaan löytyykö kannasta jo samannimistä kategoriaa
+			if (existingCategory.isEmpty()) { 
+				catRepo.save(category); // tallennetaan kantaan kun samannimistä ei löydy
+				return "redirect:/addnote"; // ohjataan lisäämään muistiinpanoa
+			} else {
+				return "redirect:/addnote"; //ohjataan lisäämään muistiinpano tallentamatta kategoriaa uudestaan kantaan
+			}	
+		}
 	}
 	
 	// kategorian lisäys adminin puolelta
@@ -90,20 +95,23 @@ public class NotebookController {
 		return "adminaddcategory";
 	}
 	
-	// TARVITSEE TARKISTUSVIESTIN
 	// tallenna uusi kategoria adminin puolelta
 	@PostMapping ("/admin/savecategory")
-	public String saveCategoryAdmin(Category category) {
-		List<Category> existingCategory = catRepo.findByCategoryName(category.getCategoryName()); //tarkistetaan löytyykö kannasta jo samannimistä kategoriaa
-		if (existingCategory.isEmpty()) { 
-			catRepo.save(category); // tallennetaan kantaan kun samannimistä ei löydy
-			return "redirect:/admin/categorylist"; // ohjataan lisäämään muistiinpanoa
+	public String saveCategoryAdmin(@Valid Category category, BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) { // tarkistetaan heittääkö validointi errorin
+			return "adminaddcategory";
 		} else {
-			return "redirect:/admin/categorylist"; //palautetaan lisäämään muistiinpano tallentamatta kategoriaa uudestaan kantaan
-		}	
+			List<Category> existingCategory = catRepo.findByCategoryName(category.getCategoryName()); //tarkistetaan löytyykö kannasta jo samannimistä kategoriaa
+			if (existingCategory.isEmpty()) { 
+				catRepo.save(category); // tallennetaan kantaan kun samannimistä ei löydy
+				return "redirect:/admin/categorylist"; // ohjataan lisäämään muistiinpanoa
+			} else {
+				return "redirect:/admin/categorylist"; //ohjataan lisäämään muistiinpano tallentamatta kategoriaa uudestaan kantaan
+			}
+		}
 	}
 	
-	// hae kannasta muistiinpanojen editiointia varten
+	// hae kannasta muistiinpano editiointia varten
 	@GetMapping ("/editnote/{id}")
 	public String editNote(@PathVariable ("id") Long noteId, Model model) {
 		model.addAttribute("note", noteRepo.findById(noteId));
@@ -111,12 +119,15 @@ public class NotebookController {
 		return "editnote";
 	}
 	
-	// hae kannasta kategorian editointia varten
+	// hae kannasta kategoria editointia varten
 	@GetMapping ("/admin/editcategory/{id}")
 	public String editCategory(@PathVariable ("id") Long categoryId, Model model) {
 		model.addAttribute("category", catRepo.findById(categoryId));
 		return "editcategory";
 	}
+	
+	// tallenna editoitu kategoria
+	
 	
 	// poista muistiinpano
 	@GetMapping ("/deletenote/{id}")
@@ -126,7 +137,7 @@ public class NotebookController {
 	}
 	
 	// TARVITSEE TARKISTUSVIESTIT/HERJAT
-	// poista kategoria, KORJATTAVA NÄYTETTÄVÄKSI VAIN ADMINILLE
+	// poista kategoria
 	@GetMapping ("/admin/deletecategory/{id}")
 	public String deleteCategory(@PathVariable ("id") Long categoryId) {	
 		Optional<Category> category = catRepo.findById(categoryId); // haetaan mahdollinen kategoria tietokannasta

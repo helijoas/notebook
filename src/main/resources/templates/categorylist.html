@@ -7,8 +7,8 @@
 	<body>
 		<div>
 			<h2>Manage categories</h2>
-			<p>View or manage all categories or</br>
-			<a th:href="@{/admin/addcategory}">add a new category</a>.</p>
+			<p>View or manage all categories or</p>
+			<p><button onclick="window.location.href='/admin/addcategory';">Add category</button></p>
 		</div>
 		<div>
 			<table>
@@ -27,7 +27,7 @@
 			</table>
 		</div>
 		<div>
-			<p><a href="/notelist">Return to the list of notes</a></p>
+			<p><button onclick="window.location.href='/notelist';">View notes</button></p>
 		</div>
 	</body>
 </html>

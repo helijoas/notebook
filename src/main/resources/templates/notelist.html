@@ -15,10 +15,6 @@
 			<h2>All notes</h2>
 			<p>Enjoy the notes you have made or <a href="/addnote">add a new note</a> for the future.</p>
 		</div>
-		<div sec:authorize="hasAuthority('ADMIN')">
-			<p>View and manage categories</br>
-			<a href="/admin/categorylist">Manage</a></p>
-		</div>
 		<div>	
 			<table>
 				<tbody>
@@ -46,6 +42,10 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+		<div sec:authorize="hasAuthority('ADMIN')">
+			<h4>View and manage categories</h4>
+			<p><button onclick="window.location.href='/admin/categorylist';">Manage</button></p>
 		</div>
 	</body>
 </html>

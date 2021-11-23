@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Note {
@@ -17,7 +18,13 @@ public class Note {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long noteId;
 	
-	private String noteName, creator, location, thoughts;
+	@NotBlank(message = "Note name is mandatory")
+	private String noteName; 
+	
+	@NotBlank(message = "Creator is mandatory")
+	private String creator;
+	
+	private String location, thoughts;
 	private LocalDate date;
 	private Integer evaluation;
 

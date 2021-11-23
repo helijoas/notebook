@@ -9,12 +9,26 @@
 			<h2>Edit a category</h2>
 		</div>
 		<div>
-			<form th:object="${category}" th:action="@{savecategory}" action="#" method="post">
-				<label for="categoryName">Category:</label>
-				<input type="text" id="name" value="${category.categoryName}" th:field="*{categoryName}"/>
-				<input type="submit" value="Save"></input>
+			<form th:object="${category}" th:action="@{../savecategory}" action="#" method="post">
+				<input type="hidden" id="category" th:field="*{categoryId}" readonly="readonly"/>
+				<table>
+					<tr>
+						<td>Category:</td>
+						<td><input type="text" id="name" value="${category.categoryName}" th:field="*{categoryName}"/></td>
+						<td th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}">CategoryName Error</td>
+					</tr>
+					<tr>
+						<td><input type="submit" value="Save"></input></td>
+					</tr>
+				</table>
 			</form>
 		</div>
-		<div><a href="/admin/categorylist">Return to the list of categories without editing category</a></div>
+		<div>
+			<h4>Don't want to edit category after all?</h4>
+			<p>
+				<button onclick="window.location.href='/admin/categorylist';">View categories</button>
+				<button onclick="window.location.href='/notelist';">View notes</button>
+			</p>
+			
 	</body>
 </html>

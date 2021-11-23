@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Category {
@@ -16,6 +17,7 @@ public class Category {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long categoryId;
 	
+	@NotBlank(message = "Category name is mandatory")
 	private String categoryName;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy = "category")

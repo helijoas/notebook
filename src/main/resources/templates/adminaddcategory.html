@@ -11,15 +11,23 @@
 		</div>
 		<div>
 			<form th:object="${category}" th:action="@{/admin/savecategory}" action="#" method="post">
-				<label for="categoryName">Category:</label>
-				<input type="text" id="name" th:field="*{categoryName}"/>
-				<input type="submit" value="Add"></input>
+				<table>
+					<tr>
+						<td>Category:</td>
+						<td><input type="text" th:field="*{categoryName}"/></td>
+						<td th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}">CategoryName Error</td>
+					</tr>
+					<tr>
+						<td><input type="submit" value="Add"></input></td>
+					</tr>
+				</table>
 			</form>
 		</div>
 		<div>
-			<a href="/addnote">Return to creating a note without adding a category</a></br>
-			<a href="/notelist">Return to the list of notes without adding a category</a></br>
-			<a href="/admin/categorylist">Return to the list of categories without adding a category</a>
+			<h4>Don't want to add a new category after all?</h4>
+			<button onclick="window.location.href='/addnote';">Create new note</button>
+			<button onclick="window.location.href='/notelist';">View notes</button>
+			<button onclick="window.location.href='/admin/categorylist';">View categories</button>
 		</div>
 	</body>
 </html>
