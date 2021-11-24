@@ -26,8 +26,8 @@
 				</tbody>
 			</table>
 		</div>
-		<div style="color:green" th:text="${success}" th:if="${success}"></div>
-		<div style="color:red" th:text="${error}" th:if="${error}"></div>
+		<div style="color:green" th:text="${success}" th:if="${success}"></div> <!-- class="alert alert-primary" role="alert" -->
+		<div style="color:red" th:text="${error}" th:if="${error}"></div> <!-- class="alert alert-danger" role="alert" -->
 		<div>
 			<p><button onclick="window.location.href='/notelist';">View notes</button></p>
 		</div>

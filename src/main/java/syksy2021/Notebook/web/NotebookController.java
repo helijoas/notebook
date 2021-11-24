@@ -32,13 +32,7 @@ public class NotebookController {
 	// login/index-sivu
 	@GetMapping ("/login")
 	public String login() {
-		return "welcome";
-	}
-	
-	// login/index-sivu
-	@GetMapping ("/")
-	public String index() {
-		return "welcome";
+		return "login";
 	}
 	
 	// muistiinpanojen listaus
@@ -57,7 +51,7 @@ public class NotebookController {
 	}
 	
 	/*
-	// tallenna uusi muistiinpano validoinnilla --> miksi ei toimi näin, heittää 500
+	// tallenna uusi muistiinpano validoinnilla --> miksi ei toimi näin, heittää 500?
 	@PostMapping ("/savenote")
 	public String saveNote(@Valid Note note, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) { // tarkistetaan heittääkö validointi errorin
