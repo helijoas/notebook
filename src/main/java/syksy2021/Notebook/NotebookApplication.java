@@ -49,9 +49,11 @@ public class NotebookApplication {
 			noteRepo.save(new Note ("Stargate", movie1, "Entertaining science fiction classic.", 3, "Roland Emmerich",
 					"Home", catRepo.findByCategoryName("Movies").get(0)));
 			
+			
 			log.info("Creating users"); // user:user, admin:admin
 			userRepo.save(new User("user", "$2a$10$JuBTfoMcXQ3fKAlCbhH8euIWuxJ0gmE8W0AcnT.lJTEag8ouAw/2q", "USER"));
 			userRepo.save(new User("admin", "$2a$10$u/j4faaPHc95K4lNWE4j6.wWvnsuYpltLHEvbRp4i/44FDhLPwrxK", "ADMIN" ));
+			
 		};
 	}
 

@@ -35,7 +35,7 @@ public class NotebookRestController {
 	
 	//GET ALL NOTES
 	//@PreAuthorize("hasAuthority('ADMIN','USER')")
-	@GetMapping("/api/notes")
+	@GetMapping("/notes")
 	public ResponseEntity<List<Note>> getAllNotes() {
 		List<Note> nlist = (List<Note>) noterepo.findAll(); // muodostaa listan kaikista repon muistiinpanoista
 		return new ResponseEntity<>(nlist, HttpStatus.OK); // palauttaa haetun listan ja 200
@@ -43,7 +43,7 @@ public class NotebookRestController {
 	
 	//GET NOTE BY ID
 	//@PreAuthorize("hasAuthority('ADMIN','USER')")
-	@GetMapping("/api/notes/{id}")
+	@GetMapping("/notes/{id}")
 	public ResponseEntity<?> getNoteById(@PathVariable (value="id") Long noteId) {
 		Map<String, String> response = new HashMap<String, String>(); // alustetaan uusi response
 		Optional<Note> note = noterepo.findById(noteId);
@@ -57,7 +57,7 @@ public class NotebookRestController {
 	
 	//GET ALL CATEGORIES
 	//@PreAuthorize("hasAuthority('ADMIN','USER')")
-	@GetMapping("/api/categories")
+	@GetMapping("/categories")
 	public ResponseEntity<List<Category>> getAllCategories() {
 		List<Category> clist = (List<Category>) catrepo.findAll(); // muodostaa listan kaikista repon kategorioista
 		return new ResponseEntity<>(clist, HttpStatus.OK); // palauttaa haetun listan ja 200
@@ -65,7 +65,7 @@ public class NotebookRestController {
 	
 	//GET CATEGORY BY ID
 	//@PreAuthorize("hasAuthority('ADMIN','USER')")
-	@GetMapping("/api/categories/{id}")
+	@GetMapping("/categories/{id}")
 	public ResponseEntity<?> getCategoryById(@PathVariable (value="id") Long catId) {
 		Map<String, String> response = new HashMap<String, String>(); // alustetaan uusi response
 		Optional<Category> cat = catrepo.findById(catId); // haetaan mahdollinen kategoria
@@ -79,7 +79,7 @@ public class NotebookRestController {
 	
 	//GET NOTES BY CATEGORY
 	//@PreAuthorize("hasAuthority('ADMIN','USER')")
-	@GetMapping("/api/categories/{id}/notes")
+	@GetMapping("/categories/{id}/notes")
 	public ResponseEntity<?> getNotesByCategory(@PathVariable (value = "id") Long catId) {
 		Map<String, String> response = new HashMap<String, String>(); // alustetaan uusi response
 		Optional<Category> optCat = catrepo.findById(catId); // haetaan mahdollinen kategoria
@@ -100,7 +100,7 @@ public class NotebookRestController {
 	
 	// POST NEW NOTE
 	//@PreAuthorize("hasAuthority('ADMIN','USER')")
-	@PostMapping("/api/notes")
+	@PostMapping("/notes")
 	public ResponseEntity<?> createNote(@Valid @RequestBody Note note, BindingResult bindingresult) {
 		Map<String, String> response = new HashMap<String, String>(); // alustetaan uusi response
 		if (bindingresult.hasErrors()) { // jos validointi tuottaa errorin
@@ -113,7 +113,7 @@ public class NotebookRestController {
 	
 	// POST NEW CATEGORY
 	//@PreAuthorize("hasAuthority('ADMIN','USER')")
-	@PostMapping("/api/categories")
+	@PostMapping("/categories")
 	public ResponseEntity<?> createCategory(@Valid @RequestBody Category cat, BindingResult bindingresult) {
 		Map<String, String> response = new HashMap<String, String>(); // alustetaan uusi response
 		if (bindingresult.hasErrors()) { // jos validointi tuottaa errorin
@@ -131,7 +131,7 @@ public class NotebookRestController {
 	
 	// DELETE NOTE BY ID
 	//@PreAuthorize("hasAuthority('ADMIN','USER')")
-	@DeleteMapping("/api/notes/{id}")
+	@DeleteMapping("/notes/{id}")
 	public ResponseEntity<?> deleteNoteById(@PathVariable (value = "id") Long noteId) {
 		Map<String, String> response = new HashMap<String, String>(); // alustetaan uusi response
 		Optional<Note> optNote = noterepo.findById(noteId); // tarkistetaan löytyykö muistiinpanoa ko id:llä
@@ -147,7 +147,7 @@ public class NotebookRestController {
 	
 	// DELETE CATEGORY BY ID
 	//@PreAuthorize("hasAuthority('ADMIN')")
-	@DeleteMapping("/api/categories/{id}")
+	@DeleteMapping("/categories/{id}")
 	public ResponseEntity<?> deleteCategoryById(@PathVariable (value="id") Long catId) {
 		Map<String, String> response = new HashMap<String, String>(); //alustetaan uusi response
 		Optional<Category> optCat = catrepo.findById(catId); // tarkistetaan löytyykö kategoriaa ko id:llä
@@ -167,54 +167,54 @@ public class NotebookRestController {
 	}
 	
 	// PUT (UPDATE) NOTE BY ID
-		//@PreAuthorize("hasAuthority('ADMIN','USER')")
-		@PutMapping("/api/notes/{id}")
-		public ResponseEntity<?> updateNoteById(@Valid @RequestBody Note newNote, BindingResult bindingresult, 
-				@PathVariable (value = "id") Long noteId) {
-			Map<String, String> response = new HashMap<String, String>(); //alustetaan uusi response
-			if (bindingresult.hasErrors()) { // jos validointi tuottaa errorin
-				response.put("message", "Some of the mandatory fields (noteName, creator) are missing");
-				return new ResponseEntity<> (response, HttpStatus.BAD_REQUEST);
-			} else {
-				Optional<Note> target = noterepo.findById(noteId); // haetaan mahdollinen muistiinpano
-				if (target.isEmpty()) { // jos muistiinpanoa ei löydy
-					response.put("message", "Note not found");
-					return new ResponseEntity<> (response, HttpStatus.NOT_FOUND);
-				} else { // jos muistiinpano löytyy
-					Note note = target.get(); // hateaan päivitettävän muistiinpanon tiedot
-					note.setNoteName(newNote.getNoteName());
-					note.setCreator(newNote.getCreator());
-					note.setLocation(newNote.getLocation());
-					note.setThoughts(newNote.getThoughts());
-					note.setDate(newNote.getDate());
-					note.setEvaluation(newNote.getEvaluation());
-					note.setCategory(newNote.getCategory());
-					noterepo.save(note); // tallennetaan muistiinpano uusin tiedoin
-					return new ResponseEntity<> (note, HttpStatus.OK);
-				}
+	//@PreAuthorize("hasAuthority('ADMIN','USER')")
+	@PutMapping("/notes/{id}")
+	public ResponseEntity<?> updateNoteById(@Valid @RequestBody Note newNote, BindingResult bindingresult, 
+			@PathVariable (value = "id") Long noteId) {
+		Map<String, String> response = new HashMap<String, String>(); //alustetaan uusi response
+		if (bindingresult.hasErrors()) { // jos validointi tuottaa errorin
+			response.put("message", "Some of the mandatory fields (noteName, creator) are missing");
+			return new ResponseEntity<> (response, HttpStatus.BAD_REQUEST);
+		} else {
+			Optional<Note> target = noterepo.findById(noteId); // haetaan mahdollinen muistiinpano
+			if (target.isEmpty()) { // jos muistiinpanoa ei löydy
+				response.put("message", "Note not found");
+				return new ResponseEntity<> (response, HttpStatus.NOT_FOUND);
+			} else { // jos muistiinpano löytyy
+				Note note = target.get(); // hateaan päivitettävän muistiinpanon tiedot
+				note.setNoteName(newNote.getNoteName());
+				note.setCreator(newNote.getCreator());
+				note.setLocation(newNote.getLocation());
+				note.setThoughts(newNote.getThoughts());
+				note.setDate(newNote.getDate());
+				note.setEvaluation(newNote.getEvaluation());
+				note.setCategory(newNote.getCategory());
+				noterepo.save(note); // tallennetaan muistiinpano uusin tiedoin
+				return new ResponseEntity<> (note, HttpStatus.OK);
 			}
 		}
+	}
 		
-		// PUT (UPDATE) CATEGORY BY ID
-		//@PreAuthorize("hasAuthority('ADMIN')")
-		@PutMapping ("/api/categories/{id}")
-		public ResponseEntity<?> updateCategoryById(@Valid @RequestBody Category newCat, BindingResult bindingresult,
-				@PathVariable (value = "id") Long catId) {
-			Map<String,String> response = new HashMap<String, String>(); // alustetaan uusi response
-			if (bindingresult.hasErrors()) { // jos validointi tuottaa errorin
-				response.put("message", "Mandatory field is missing");
-				return new ResponseEntity<> (response, HttpStatus.BAD_REQUEST);
-			} else {
-				Optional<Category> target = catrepo.findById(catId); // haetaan mahdollinen muistiinpano
-				if (target.isEmpty()) { // jos kategoriaa ei löydy
-					response.put("message", "Category not found");
-					return new ResponseEntity<> (response, HttpStatus.NOT_FOUND);
-				} else { // jos kategoria löytyy
-					Category cat = target.get(); // haetaan päivitettävän kategorian tiedot
-					cat.setCategoryName(newCat.getCategoryName());
-					catrepo.save(cat); // tallennetaan kategoria uusin tiedoin
-					return new ResponseEntity<> (cat, HttpStatus.OK);
-				}
+	// PUT (UPDATE) CATEGORY BY ID
+	//@PreAuthorize("hasAuthority('ADMIN')")
+	@PutMapping ("/categories/{id}")
+	public ResponseEntity<?> updateCategoryById(@Valid @RequestBody Category newCat, BindingResult bindingresult,
+			@PathVariable (value = "id") Long catId) {
+		Map<String,String> response = new HashMap<String, String>(); // alustetaan uusi response
+		if (bindingresult.hasErrors()) { // jos validointi tuottaa errorin
+			response.put("message", "Mandatory field is missing");
+			return new ResponseEntity<> (response, HttpStatus.BAD_REQUEST);
+		} else {
+			Optional<Category> target = catrepo.findById(catId); // haetaan mahdollinen muistiinpano
+			if (target.isEmpty()) { // jos kategoriaa ei löydy
+				response.put("message", "Category not found");
+				return new ResponseEntity<> (response, HttpStatus.NOT_FOUND);
+			} else { // jos kategoria löytyy
+				Category cat = target.get(); // haetaan päivitettävän kategorian tiedot
+				cat.setCategoryName(newCat.getCategoryName());
+				catrepo.save(cat); // tallennetaan kategoria uusin tiedoin
+				return new ResponseEntity<> (cat, HttpStatus.OK);
 			}
 		}
+	}
 } 
