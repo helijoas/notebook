@@ -31,8 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/css/**").permitAll()
-				.antMatchers("/api/**").permitAll() // api käytössä ilman auktorisointia
+				.antMatchers("/css/**", "/api/**").permitAll() // huom! api käytössä ilman auktorisointia 
 				.antMatchers("/admin/**").hasAuthority("ADMIN")
 				.anyRequest().authenticated()
 				.and()

@@ -18,10 +18,10 @@ public class Note {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long noteId;
 	
-	//@NotBlank(message = "Note name is mandatory")
+	@NotBlank(message = "Note name is mandatory")
 	private String noteName; 
 	
-	//@NotBlank(message = "Creator is mandatory")
+	@NotBlank(message = "Creator is mandatory")
 	private String creator;
 	
 	private String location, thoughts;

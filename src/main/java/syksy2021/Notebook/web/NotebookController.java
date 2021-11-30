@@ -50,8 +50,8 @@ public class NotebookController {
 		return "addnote";
 	}
 	
-	/*
-	// tallenna uusi muistiinpano validoinnilla --> miksi ei toimi näin, heittää 500?
+	
+	// tallenna uusi muistiinpano validoinnilla
 	@PostMapping ("/savenote")
 	public String saveNote(@Valid Note note, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) { // tarkistetaan heittääkö validointi errorin
@@ -63,8 +63,8 @@ public class NotebookController {
 			return "redirect:/notelist";
 		}	
 	}
-	*/
-
+	
+	/*
 	// tallenna uusi muistiinpano
 		@PostMapping ("/savenote")
 		public String saveNote(Note note) {
@@ -72,7 +72,8 @@ public class NotebookController {
 			//note.setDate(date);
 			noteRepo.save(note);
 			return "redirect:/notelist";
-		}	
+		}
+	*/	
 
 	//kategorioiden listaus
 	@GetMapping ("/admin/categorylist")
