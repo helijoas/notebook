@@ -104,7 +104,7 @@ public class NotebookRestController {
 	public ResponseEntity<?> createNote(@Valid @RequestBody Note note, BindingResult bindingresult) {
 		Map<String, String> response = new HashMap<String, String>(); // alustetaan uusi response
 		if (bindingresult.hasErrors()) { // jos validointi tuottaa errorin
-			response.put("message", "Some of the mandatory fields (noteName, creator) is missing");
+			response.put("message", "Some of the mandatory fields (noteName, creator) are missing");
 			return new ResponseEntity<> (response, HttpStatus.BAD_REQUEST);
 		} else { // muuten luodaan uusi muistiinpano
 			return new ResponseEntity<> (noterepo.save(note), HttpStatus.CREATED);
@@ -166,6 +166,55 @@ public class NotebookRestController {
 		}
 	}
 	
-	
-	
+	// PUT (UPDATE) NOTE BY ID
+		//@PreAuthorize("hasAuthority('ADMIN','USER')")
+		@PutMapping("/api/notes/{id}")
+		public ResponseEntity<?> updateNoteById(@Valid @RequestBody Note newNote, BindingResult bindingresult, 
+				@PathVariable (value = "id") Long noteId) {
+			Map<String, String> response = new HashMap<String, String>(); //alustetaan uusi response
+			if (bindingresult.hasErrors()) { // jos validointi tuottaa errorin
+				response.put("message", "Some of the mandatory fields (noteName, creator) are missing");
+				return new ResponseEntity<> (response, HttpStatus.BAD_REQUEST);
+			} else {
+				Optional<Note> target = noterepo.findById(noteId); // haetaan mahdollinen muistiinpano
+				if (target.isEmpty()) { // jos muistiinpanoa ei löydy
+					response.put("message", "Note not found");
+					return new ResponseEntity<> (response, HttpStatus.NOT_FOUND);
+				} else { // jos muistiinpano löytyy
+					Note note = target.get(); // hateaan päivitettävän muistiinpanon tiedot
+					note.setNoteName(newNote.getNoteName());
+					note.setCreator(newNote.getCreator());
+					note.setLocation(newNote.getLocation());
+					note.setThoughts(newNote.getThoughts());
+					note.setDate(newNote.getDate());
+					note.setEvaluation(newNote.getEvaluation());
+					note.setCategory(newNote.getCategory());
+					noterepo.save(note); // tallennetaan muistiinpano uusin tiedoin
+					return new ResponseEntity<> (note, HttpStatus.OK);
+				}
+			}
+		}
+		
+		// PUT (UPDATE) CATEGORY BY ID
+		//@PreAuthorize("hasAuthority('ADMIN')")
+		@PutMapping ("/api/categories/{id}")
+		public ResponseEntity<?> updateCategoryById(@Valid @RequestBody Category newCat, BindingResult bindingresult,
+				@PathVariable (value = "id") Long catId) {
+			Map<String,String> response = new HashMap<String, String>(); // alustetaan uusi response
+			if (bindingresult.hasErrors()) { // jos validointi tuottaa errorin
+				response.put("message", "Mandatory field is missing");
+				return new ResponseEntity<> (response, HttpStatus.BAD_REQUEST);
+			} else {
+				Optional<Category> target = catrepo.findById(catId); // haetaan mahdollinen muistiinpano
+				if (target.isEmpty()) { // jos kategoriaa ei löydy
+					response.put("message", "Category not found");
+					return new ResponseEntity<> (response, HttpStatus.NOT_FOUND);
+				} else { // jos kategoria löytyy
+					Category cat = target.get(); // haetaan päivitettävän kategorian tiedot
+					cat.setCategoryName(newCat.getCategoryName());
+					catrepo.save(cat); // tallennetaan kategoria uusin tiedoin
+					return new ResponseEntity<> (cat, HttpStatus.OK);
+				}
+			}
+		}
 } 
