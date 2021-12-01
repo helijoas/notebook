@@ -35,6 +35,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+			.cors().configurationSource(request -> {
+			      var cors = new CorsConfiguration();
+			      cors.setAllowedOrigins(List.of("*"));
+			      cors.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+			      cors.setAllowedHeaders(List.of("*"));
+			      return cors;
+			    })
+			.and()
 			.authorizeRequests().antMatchers("/css/**", "/login").permitAll() // , "/api/**" huom! api käytössä ilman auktorisointia 
 			.and()
 			.authorizeRequests().antMatchers("/admin/**").hasAuthority("ADMIN")
@@ -71,5 +79,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passCoder() {
 		return new BCryptPasswordEncoder(); 
 	}
+	
+	/*
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() 
+    {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
+    */
 	
 }
